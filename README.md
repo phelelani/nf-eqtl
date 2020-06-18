@@ -4,7 +4,13 @@
     <img width="1200" src="nf-eqtl.png">
 </p>
 
-### 1. Download data!
+### 1. Download workflow and data!
+```console
+git pull https://github.com/phelelani/nf-eqtl.git
+```
+
+Download the data needed to run the workflow and move it into the `data` folder (create it!) in the repository.
+
 ### 2. Set parameters
 Edit the `myfiles.config` file with the necessary files you downloaded!
 ```console
@@ -34,3 +40,24 @@ perl remove_samples.pl outputs/geno_mapping.txt outputs/expr_mapping.txt <failed
 Rscript cis_trans_eqtl.R
 ```
 
+### 6. Results in the `outputs` folder:
+```console
+outputs
+  |--cis_eqtls_removed_1e6_1e-6.txt      ## 
+  |--eqtl_snploc.txt                     ## 
+  |--extreme_het                         ## 
+     |--pairs.imiss-vs-het.pdf           ## 
+  |--geno_mapping.txt                    ## 
+  |--trans_eqtls_removed_1e6_1e-6.txt    ## 
+  |--eqtl_covariate.txt                  ## 
+  |--expression_remove.txt               ## 
+  |--gene_expression_norm                ## 
+  |--genotype_remove.txt                 ## 
+  |--eqtl_genotype.txt                   ## 
+  |--expr_mapping.txt                    ## 
+  |--gene_location_file.txt              ## 
+  |--histogram.pdf                       ## 
+  |--pca_info                            ## 
+     |--PCA_plot.pdf                     ## 
+     |--PCA_variance.pdf                 ## 
+```

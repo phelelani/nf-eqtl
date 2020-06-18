@@ -13,7 +13,6 @@ data_snp.into { data_snp_1; data_snp_2 }
 data_expression.into { data_expression_1; data_expression_2; data_expression_3 }
 
 process run_makePED_MAP {
-    // publishDir "$PWD/outputs/", mode: 'copy', overwrite: true
     
     input:
     file(genotype) from data_genotype_1
@@ -28,16 +27,12 @@ process run_makePED_MAP {
 }
         
 process run_PLINK_BED {
-    // publishDir "$PWD/outputs/bed", mode: 'copy', overwrite: true
             
     input:
     set dataset, file(bedmap) from pedmap_files
     
     output:
     set dataset, file("*.{bed,bim,fam}") into plink_bed_1, plink_bed_2
-    // set dataset, file("${dataset}.sexcheck") into plink_sexcheck
-    // set dataset, file("${dataset}.sex_probs") into plink_sex
-    // set dataset, file("${dataset}.pheno") into plink_pheno
     
     """
     ## MAKES: {hh,bed,fam,bim,log}
@@ -54,7 +49,6 @@ process run_PLINK_BED {
 }
 
 process run_PLINK_MISSING {
-    // publishDir "$PWD/outputs/missing", mode: 'copy', overwrite: true
 
     input:
     set dataset, file(set) from plink_bed_1
@@ -62,7 +56,6 @@ process run_PLINK_MISSING {
     output:
     set dataset, file("${dataset}_miss.{bed,bim,fam}") into plink_missing
     set dataset, file("${dataset}_miss.het") into plink_het
-    // set dataset, file("${dataset}_miss.irem") into plink_irem
     set dataset, file("${dataset}_miss.imiss") into plink_imiss_1, plink_imiss_2
     
     """
@@ -76,7 +69,6 @@ process run_PLINK_MISSING {
 }
 
 process run_PLINK_PRUNING {
-    // publishDir "$PWD/outputs/pruning", mode: 'copy', overwrite: true
     
     input:
     set dataset, file(set) from plink_missing
@@ -138,7 +130,6 @@ process run_IdentyByDescent {
 }
 
 process run_SNP_QC {
-    // publishDir "$PWD/outputs/snp_qc", mode: 'copy', overwrite: true
     
     input:
     set dataset, file(set) from plink_bed_2
@@ -161,7 +152,6 @@ process run_PCA {
     
     output:
     file("PCA_*") into pca_info
-    // file("data_expression_matrix") into expression_matrix
 
     """
     sed '/^!/d; /^\$/d' ${expression} > data_expression_matrix
@@ -214,7 +204,6 @@ process run_makeCovarSNPLocFiles {
 }
 
 process run_matchSNPOrder {
-    // publishDir "$PWD/outputs/eqtl", mode: 'copy', overwrite: true
 
     input:
     file(bim) from snpqc_bim_1
@@ -291,31 +280,3 @@ process run_makeGeneLOC {
     remove_bad_chr_no.pl
     """
 }
-
-//         params.failed_genotype = "/home/phelelani/projects/jenny/data/remove/failed_genotype.txt"
-//         params.failed_expression = "/home/phelelani/projects/jenny/data/remove/failed_expression.txt"
-        
-//         mapping_genotype = Channel.fromPath("$PWD/outputs/expression_qc/geno_mapping.txt", type: 'file')
-//         mapping_expression = Channel.fromPath("$PWD/outputs/expression_qc/expr_mapping.txt", type: 'file')
-//         failed_genotype =  Channel.fromPath(params.failed_genotype, type: 'file')
-//         failed_expression = Channel.fromPath(params.failed_expression, type: 'file')
-
-//         Channel.fromPath("$PWD/outputs/snp_qc/*.bim", type: 'file')
-//             .into { snpqc_bim_1; snpqc_bim_2 }
-        
-//         process run_removeFailed {
-//             publishDir "$PWD/outputs/failed", mode: 'copy', overwrite: true
-            
-//             input:
-//             file(map_geno) from mapping_genotype
-//             file(map_expr) from mapping_expression
-//             file(fail_geno) from failed_genotype
-//             file(fail_expr) from failed_expression
-            
-//             output:
-//             set val("dataset"), file("*_remove.txt") into remove
-            
-//             """
-//             remove_samples.pl ${map_geno} ${map_expr} ${fail_geno} ${fail_expr}
-//             """
-//         }
