@@ -6,8 +6,8 @@ open (IN1, "<", "$map_geno") or die "Cannot find the required genotype input fil
 open (IN2, "<", "$map_expr") or die "Cannot find the required gene expression file!\n";
 open (IN3, "<", "$failed_geno") or die "Cannot find the file with genotyping samples that have to be removed!\n";
 open (IN4, "<", "$failed_expr") or die "Cannot find the file with gene expression samples that have to be removed!\n";
-open (OUT1,'>genotype_remove.txt') or die "Cannot write into genotype_samples.txt!\n";
-open (OUT2,'>expression_remove.txt') or die "Cannot write into file gene_expression_samples.txt!\n";
+open (OUT1,'>outputs/genotype_remove.txt') or die "Cannot write into genotype_samples.txt!\n";
+open (OUT2,'>outputs/expression_remove.txt') or die "Cannot write into file gene_expression_samples.txt!\n";
 
 @file1= <IN1>;
 chomp @file1;

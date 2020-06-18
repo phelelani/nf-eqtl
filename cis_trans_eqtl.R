@@ -97,5 +97,7 @@ cat('Detected distant eQTLs:', '\n');
 show(me$trans$eqtls)
 
 ## Make the histogram of local and distant p-values
+pdf("outputs/histogram.pdf", paper='a4',width = 0, height = 0, onefile=FALSE)
 plot(me)
+dev.off()
 
