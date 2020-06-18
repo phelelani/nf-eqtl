@@ -1,0 +1,23 @@
+#!/usr/bin/perl -w
+open (IN1,"<Probe_and_control_probe_info_2.txt") or die "Cannot open Probe_and_control_probe_info_2.txt!\n";
+open (IN2,"<geneexpression_normalised_2.txt") or die "geneexpression_normalised_2.txt!\n";
+open (OUT,">output.txt") or die "Cannot write into output.txt!\n";
+@p_c=<IN1>;
+@genexp=<IN2>;
+chomp @p_c;
+chomp @genexp;
+%ilmn_gene=();
+for ($i=1;$i<@p_c;$i++)
+{
+	$p_c[$i]=~s/\r//g;
+	@a=split('\t',$p_c[$i]);
+	#print "$a[13]\t$a[4]\n";
+	$ilmn_gene{$a[13]}=$a[4];
+}
+
+for($j=1;$j<@genexp;$j++)
+{
+	$genexp[$j]=~s/\r//g;
+	@b=split("\t",$genexp[$j]);
+	print OUT "$ilmn_gene{$b[0]}\n";
+}

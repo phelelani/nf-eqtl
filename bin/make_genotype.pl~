@@ -1,0 +1,25 @@
+#!/usr/bin/perl -w
+open (IN1,"<genotype_1.txt") or die "Cannot open genotype_1.txt\n";
+open (OUT,">genotype_2.txt") or die "Cannot write into genotype_2.txt\n";
+open (HEADER,">head.txt") or die "Cannot write into head.txt\n";
+@geno=<IN1>;
+chomp @geno;
+
+# print HEADER "id\t";
+# for ($j=1;$j<=@geno;$j++)
+# {
+	# print HEADER"#00$j\t";
+# }
+	
+for ($i=0;$i<@geno;$i++)
+{
+	$geno[$i]=~s/\r//g;
+	$geno[$i]=~s/AA/0/g;
+	$geno[$i]=~s/AB/1/g;
+	$geno[$i]=~s/BB/2/g;
+	$geno[$i]=~s/"//g;
+	$geno[$i]=~s/-\d*_._._\w+:.//g;
+	print OUT "$geno[$i]\n";
+}
+	
+	
